@@ -27,11 +27,10 @@ public class CsrfHeaderFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		String csrfTokenValue = request.getHeader(StaticValue.COOKIE_X_XSRF_TOKEN);
 		Cookie cookie = WebUtils.getCookie(request, StaticValue.COOKIE_XSRF_TOKEN);
-		if (csrfTokenValue == null || cookie == null || !csrfTokenValue.equals(cookie.getValue())) {
-			accessDeniedHandler.handle(request, response,
-					new AccessDeniedException(StaticValue.EXCEPTION_ACCESS_DENIED));
+//		if (csrfTokenValue == null || cookie == null || !csrfTokenValue.equals(cookie.getValue())) {
+		if(cookie == null){
+			accessDeniedHandler.handle(request, response, new AccessDeniedException(StaticValue.EXCEPTION_ACCESS_DENIED));
 			return;
 		}
 		addCsrfCookie(response);
@@ -45,9 +44,11 @@ public class CsrfHeaderFilter extends OncePerRequestFilter {
 	}
 
 	public static void addCsrfCookie(HttpServletResponse response) {
-		Cookie cookie = new Cookie(StaticValue.COOKIE_XSRF_TOKEN, UUID.randomUUID().toString());
+		String xsrf = UUID.randomUUID().toString();
+		Cookie cookie = new Cookie(StaticValue.COOKIE_XSRF_TOKEN, xsrf);
 		cookie.setPath(StaticValue.COOKIE_PATH);
 		cookie.setMaxAge(StaticValue.COOKIE_TIME);
 		response.addCookie(cookie);
+		response.addHeader(StaticValue.COOKIE_XSRF_TOKEN, xsrf);
 	}
 }

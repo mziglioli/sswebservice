@@ -16,7 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.User;
+import com.model.form.LoginForm;
 import com.security.service.TokenAuthenticationService;
 import com.security.service.UserDetailsService;
 import com.security.user.UserAuthentication;
@@ -37,10 +39,9 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(username,
-				password);
+		final LoginForm form = new ObjectMapper().readValue(request.getInputStream(), LoginForm.class);
+		final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
+				form.getUsername(), form.getPassword());
 		return getAuthenticationManager().authenticate(loginToken);
 	}
 
@@ -53,6 +54,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 		SecurityContextHolder.getContext().setAuthentication(userAuthentication);
 		CsrfHeaderFilter.addCsrfCookie(response);
 		response.setStatus(HttpStatus.OK.value());
+		ObjectMapper mapper = new ObjectMapper();
+		response.getOutputStream().println(mapper.writeValueAsString(authenticatedUser));
 	}
 
 	@Override

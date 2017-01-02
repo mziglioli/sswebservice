@@ -21,7 +21,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	public AuthenticationFilter(TokenAuthenticationService tokenAuthenticationService) {
 		this.tokenAuthenticationService = tokenAuthenticationService;
 	}
-
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filter)
 			throws ServletException, IOException {

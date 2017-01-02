@@ -2,6 +2,8 @@ package com.util;
 
 public class StaticURL {
 
+	public static final String CLIENTS = "http://localhost:4200";
+
 	public static final String SERVER = "http://127.0.0.1:8080";
 	public static final String ROOT = "/";
 
@@ -14,6 +16,8 @@ public class StaticURL {
 	public static final String PUBLIC = "/public";
 	public static final String LOGIN = "/public/login";
 	public static final String LOGOUT = "/public/logout";
+	public static final String SUCCESS_LOGOUT = "/successlogout";
+	public static final String PUBLIC_SUCCESS_LOGOUT = "/public/successlogout";
 
 	// CRUD
 	public static final String FIND_BY_ID = "/{id}";

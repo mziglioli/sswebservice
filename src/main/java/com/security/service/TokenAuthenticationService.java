@@ -21,21 +21,26 @@ public class TokenAuthenticationService {
 	private TokenHandler tokenHandler;
 
 	public void addAuthentication(HttpServletResponse response, UserAuthentication userAuthentication) {
-		Cookie cookie = new Cookie(StaticValue.COOKIE_AUTH_NAME,
-				tokenHandler.createTokenForUser(userAuthentication.getDetails()));
+		String jwt = tokenHandler.createTokenForUser(userAuthentication.getDetails());
+		
+		Cookie cookie = new Cookie(StaticValue.COOKIE_AUTH_NAME, jwt);
 		cookie.setPath(StaticValue.COOKIE_PATH);
 		cookie.setHttpOnly(true);
 		cookie.setMaxAge(StaticValue.COOKIE_TIME);
 		response.addCookie(cookie);
-
+		response.addHeader(StaticValue.COOKIE_AUTH_NAME, jwt);
 		Cookie cookieId = new Cookie(StaticValue.COOKIE_USER_ID,
 				String.valueOf(userAuthentication.getDetails().getId()));
 		cookieId.setPath(StaticValue.COOKIE_PATH);
 		cookieId.setMaxAge(StaticValue.COOKIE_TIME);
 		response.addCookie(cookieId);
 	}
-
+	
 	public Authentication getAuthentication(HttpServletRequest request) {
+		String aut = request.getHeader("Authentication");
+		Object obj = request.getHeader(StaticValue.COOKIE_AUTH_NAME);
+		
+		
 		Cookie cookie = WebUtils.getCookie(request, StaticValue.COOKIE_AUTH_NAME);
 		if (cookie != null) {
 			String token = cookie.getValue();

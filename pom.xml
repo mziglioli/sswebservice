@@ -66,6 +66,13 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.5</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-core -->
 <!-- 		<dependency> -->
 <!-- 			<groupId>com.querydsl</groupId> -->

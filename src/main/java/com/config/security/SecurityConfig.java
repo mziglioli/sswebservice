@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 
@@ -20,10 +21,13 @@ import com.security.exception.AuthenticationEntryPointImpl;
 import com.security.filter.AuthenticationFilter;
 import com.security.filter.CsrfHeaderFilter;
 import com.security.filter.LoginFilter;
+import com.security.filter.SimpleCorsFilter;
+import com.security.handler.MyLogoutSuccessHandler;
 import com.security.service.TokenAuthenticationService;
 import com.security.service.UserDetailsService;
 import com.security.voter.UserRoleVoter;
 import com.util.StaticURL;
+import com.util.StaticValue;
 
 @Configuration
 @EnableWebSecurity
@@ -44,15 +48,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		//@formatter:off
 		http
-			.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.csrf()
+				.disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and().anonymous()
-			.and().authorizeRequests().antMatchers(StaticURL.PUBLIC_ALL, StaticURL.FAVICON_ICO).permitAll().anyRequest().authenticated()
+			.and().authorizeRequests().antMatchers(StaticURL.PUBLIC_ALL, StaticURL.FAVICON_ICO).permitAll()
+				.antMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+				.anyRequest().authenticated()
 			.and()
+				.addFilterBefore(new SimpleCorsFilter(), ChannelProcessingFilter.class)
 				.addFilterBefore(new LoginFilter(StaticURL.LOGIN, tokenAuthenticationService(), userDetailsService(), authenticationManager()), UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(new AuthenticationFilter(tokenAuthenticationService()), UsernamePasswordAuthenticationFilter.class)
 					.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPointImpl())
-			.and().logout().logoutUrl(StaticURL.LOGOUT).logoutSuccessUrl(StaticURL.LOGIN)
-			.and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
+			.and().logout()
+				.logoutUrl(StaticURL.LOGOUT)
+				.logoutSuccessUrl(StaticURL.PUBLIC_SUCCESS_LOGOUT)
+				.addLogoutHandler(myLogoutHandler()) 
+					.deleteCookies(StaticValue.COOKIE_AUTH_NAME)
+					.deleteCookies(StaticValue.COOKIE_USER_ID)
+					.deleteCookies(StaticValue.COOKIE_XSRF_TOKEN)
+			.and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+					;
 		//@formatter:on
 	}
 
@@ -71,6 +86,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public TokenAuthenticationService tokenAuthenticationService() {
 		return new TokenAuthenticationService();
+	}
+	
+	@Bean
+	public MyLogoutSuccessHandler myLogoutHandler() {
+		return new MyLogoutSuccessHandler();
 	}
 
 	@Bean

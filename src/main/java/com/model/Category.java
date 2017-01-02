@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.util.StaticDB;
 
 import lombok.AllArgsConstructor;
@@ -31,7 +31,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = StaticDB.CATEGORY, uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+@Table(name = StaticDB.TABLE_CATEGORY, uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+@JsonIgnoreProperties(value = {"articles"})
 public class Category implements EntityJpa, Serializable {
 
 	private static final long serialVersionUID = 6942092712979147417L;
@@ -51,9 +52,8 @@ public class Category implements EntityJpa, Serializable {
 	@NotEmpty(message = "error.empty.icon")
 	private String icon;
 
-	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = StaticDB.ARTICLE_CATEGORY, joinColumns = {
+	@JoinTable(name = StaticDB.TABLE_ARTICLE_CATEGORY, joinColumns = {
 			@JoinColumn(name = "category_id", referencedColumnName = "category_id") }, inverseJoinColumns = {
 					@JoinColumn(name = "article_id", referencedColumnName = "article_id") })
 	private Set<Article> articles;

@@ -19,9 +19,9 @@ public class StaticDB {
 	public static final String DB_SHOW_SQL_VALUE = "true";
 
 	// TABLES NAME
-	public static final String ARTICLE = "helparticles";
-	public static final String CATEGORY = "helparticle_category";
-	public static final String ARTICLE_CATEGORY = "helparticle_category_category";
-	public static final String USER = "user";
+	public static final String TABLE_ARTICLE = "helparticles";
+	public static final String TABLE_CATEGORY = "helparticle_category";
+	public static final String TABLE_ARTICLE_CATEGORY = "helparticle_category_category";
+	public static final String TABLE_USER = "user";
 
 }

@@ -27,7 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = StaticDB.ARTICLE)
+@Table(name = StaticDB.TABLE_ARTICLE)
 public class Article implements EntityJpa, Serializable {
 
 	private static final long serialVersionUID = 6942092712979147417L;

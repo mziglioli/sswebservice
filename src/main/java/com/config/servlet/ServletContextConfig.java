@@ -17,7 +17,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import com.controller.ControllerPackage;
 import com.model.EntityJpa;
 import com.service.ServicePackage;
-import com.util.StaticValue;
+import com.util.StaticURL;
 
 @Configuration
 @EnableWebMvc
@@ -26,7 +26,7 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins(StaticValue.SERVER).allowedMethods("*");
+		registry.addMapping("/**").allowedOrigins(StaticURL.SERVER, StaticURL.CLIENTS).allowedMethods("*").allowedHeaders("*").allowCredentials(true);
 	}
 
 	@Bean

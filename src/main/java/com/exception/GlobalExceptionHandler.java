@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
 
 	private void addResponse(HttpServletResponse response, String url, String error, Exception ex) {
 		log.info("Exception Occured: URL=" + url + ", errors: " + error);
-		// ex.printStackTrace();
+		 ex.printStackTrace();
 		response.setContentType("application/json");
 		try {
 			response.getOutputStream().println(error);

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.model.enuns.Authorities;
 import com.model.enuns.Status;
+import com.util.StaticDB;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -41,7 +42,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false, of = { "id" })
 @ToString(callSuper = false, of = { "id", "name", "username", "status", "description" })
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
+@Table(name = StaticDB.TABLE_USER, uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 public class User implements EntityJpa, Serializable, UserDetails {
 
 	private static final long serialVersionUID = 442738873666572571L;
@@ -135,18 +136,6 @@ public class User implements EntityJpa, Serializable, UserDetails {
 		return false;
 	}
 
-	// public Collection<Authorities> getRoles() {
-	// if (roles != null) {
-	// try (Stream<Authorities> stream = roles.stream()) {
-	// stream.sorted((r1, r2) -> r1.getRole().compareTo(r2.getRole()));
-	// roles = stream.collect(Collectors.toSet());
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// return roles;
-	// }
-
 	@JsonIgnore
 	public boolean isUser() {
 		if (roles != null) {
@@ -169,5 +158,20 @@ public class User implements EntityJpa, Serializable, UserDetails {
 			}
 		}
 		return false;
+	}
+	
+	public String toJson(){
+		StringBuilder sb = new StringBuilder("[");
+		String sep = "";
+		if (roles != null && !roles.isEmpty()) {
+			for (Authorities r : roles) {
+				sb.append(sep + "'"+r.getRole()+"'");
+				sep = ",";
+			}
+		}
+		sb.append("]");
+		
+		return "{\"id\":"+ id + ", \"name\":\"" + name + "\", \"username\":\"" + username + "\", \"status\":\"" + status + "\", \"description\":\""
+				+ description + "\"}";
 	}
 }

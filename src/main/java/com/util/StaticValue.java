@@ -19,7 +19,8 @@ public class StaticValue {
 	// COOKIE
 	public static final String COOKIE_XSRF_TOKEN = "XSRF-TOKEN";
 	public static final String COOKIE_X_XSRF_TOKEN = "X-XSRF-TOKEN";
-	public static final int COOKIE_TIME = (60 * 60 * 24 * 30);
+	//seconds, minutes, hs, days
+	public static final int COOKIE_TIME = (60 * 60 * 1 * 1);
 	public static final String COOKIE_PATH = "/";
 	public static final String COOKIE_AUTH_NAME = "X-AUTH-TOKEN";
 	public static final String COOKIE_USER_ID = "USER-ID";
@@ -27,6 +28,7 @@ public class StaticValue {
 	public static final String COOKIE_MISSING_NOT_MATCHING = "Missing or non-matching XSRF-TOKEN";
 
 	// exception;
+	public static final String EXCEPTION_USER_NOT_ACTIVE = "exception.userNotActive";
 	public static final String EXCEPTION_USER_NOT_FOUND = "exception.userNotFound";
 	public static final String EXCEPTION_ACCESS_DENIED = "exception.xsfrToken"; // "Missing or non-matching XSRF-TOKEN";
 
