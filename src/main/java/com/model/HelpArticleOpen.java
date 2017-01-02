@@ -1,4 +1,4 @@
-package com.traveljigsaw.web.helpcentre;
+package com.model;
 
 import java.io.Serializable;
 import java.util.Date;
