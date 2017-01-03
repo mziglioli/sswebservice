@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.exception.MyException;
 import com.model.EntityJpa;
 import com.service.ServiceDefault;
 import com.util.StaticURL;
@@ -41,7 +42,11 @@ public abstract class ControllerDefault<T extends ServiceDefault, E extends Enti
 	@PutMapping(value = StaticURL.UPDATE)
 	@PreAuthorize(StaticValue.HAS_ROLE_USER)
 	@ResponseStatus(code = HttpStatus.OK)
-	protected void update(@Valid @RequestBody E entity, BindingResult bindingResult) {
+	protected void update(@PathVariable String id, @Valid @RequestBody E entity, BindingResult bindingResult)
+			throws MyException {
+		if (StringUtils.isNumeric(id) && Long.valueOf(id) != entity.getId()) {
+			throw new MyException("exception.updateWithWrongId");
+		}
 		getService().save(entity);
 	}
 
@@ -63,7 +68,11 @@ public abstract class ControllerDefault<T extends ServiceDefault, E extends Enti
 	@DeleteMapping(value = StaticURL.DELETE)
 	@PreAuthorize(StaticValue.HAS_ROLE_USER)
 	@ResponseStatus(code = HttpStatus.OK)
-	protected void delete(@PathVariable String id) {
-		getService().getRepository().delete(id);
+	protected void delete(@PathVariable String id) throws MyException {
+		if (!StringUtils.isNumeric(id)) {
+			throw new MyException("exception.deleteWithWrongId");
+		}
+		getService().delete(Long.valueOf(id));
+
 	}
 }

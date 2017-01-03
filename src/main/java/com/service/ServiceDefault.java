@@ -5,8 +5,8 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.exception.MyException;
 import com.model.EntityJpa;
-import com.util.StaticValue;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j;
@@ -46,6 +46,17 @@ public abstract class ServiceDefault<T extends EntityJpa, R extends JpaRepositor
 		repository.delete(entity);
 		afterDelete(entity);
 	}
+	
+	public final void delete(Long id) throws MyException{
+		log("delete by id " + id);
+		T entity = repository.getOne(id);
+		if(entity == null){
+			throw new MyException("exception.deleteNotFindId");
+		}
+		beforeDelete(entity);
+		repository.delete(entity);
+		afterDelete(entity);
+	}
 
 	public Collection<T> findAll() {
 		return repository.findAll();
@@ -76,6 +87,6 @@ public abstract class ServiceDefault<T extends EntityJpa, R extends JpaRepositor
 	}
 
 	protected void log(String msg) {
-		log.info(msg + StaticValue.LOG_SEPARATOR + String.valueOf(userService.getAuthenticatedUser()));
+		log.info(msg);
 	}
 }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,7 +28,14 @@ public class GlobalExceptionHandler {
 		String error = "{ \"error\": \"exception.default\" }";
 		addResponse(response, String.valueOf(request.getRequestURL()), error, ex);
 	}
-
+	
+	@ExceptionHandler(MyException.class)
+	public void handleMyUpdateException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
+		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		String error = "{ \"error\": \""+ex.getMessage()+"\" }";
+		addResponse(response, String.valueOf(request.getRequestURL()), error, ex);
+	}
+	
 	@ExceptionHandler(DuplicateKeyException.class)
 	public void handleDuplicateKeyException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
 		response.setStatus(HttpServletResponse.SC_CONFLICT);
@@ -67,7 +75,16 @@ public class GlobalExceptionHandler {
 		String error = "{ \"error\": " + sb.toString() + "}";
 		addResponse(response, String.valueOf(request.getRequestURL()), error, ex);
 	}
-
+	
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public void handleIntegrity(HttpServletRequest request, HttpServletResponse response,
+			DataIntegrityViolationException ex) {
+		response.setStatus(HttpServletResponse.SC_CONFLICT);
+		String error = "{ \"error\": \"exception.dataIntegrityViolation\" }";
+		addResponse(response, String.valueOf(request.getRequestURL()), error, ex);
+	}
+	
 	private void addResponse(HttpServletResponse response, String url, String error, Exception ex) {
 		log.info("Exception Occured: URL=" + url + ", errors: " + error);
 		 ex.printStackTrace();
