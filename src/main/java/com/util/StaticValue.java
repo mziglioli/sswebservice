@@ -20,7 +20,7 @@ public class StaticValue {
 	public static final String COOKIE_XSRF_TOKEN = "XSRF-TOKEN";
 	public static final String COOKIE_X_XSRF_TOKEN = "X-XSRF-TOKEN";
 	//seconds, minutes, hs, days
-	public static final int COOKIE_TIME = (60 * 60 * 1 * 1);
+	public static final int COOKIE_TIME = (60 * 60 * 24 * 1);
 	public static final String COOKIE_PATH = "/";
 	public static final String COOKIE_AUTH_NAME = "X-AUTH-TOKEN";
 	public static final String COOKIE_USER_ID = "USER-ID";
