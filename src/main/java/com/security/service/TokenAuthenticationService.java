@@ -37,10 +37,6 @@ public class TokenAuthenticationService {
 	}
 	
 	public Authentication getAuthentication(HttpServletRequest request) {
-		String aut = request.getHeader("Authentication");
-		Object obj = request.getHeader(StaticValue.COOKIE_AUTH_NAME);
-		
-		
 		Cookie cookie = WebUtils.getCookie(request, StaticValue.COOKIE_AUTH_NAME);
 		if (cookie != null) {
 			String token = cookie.getValue();

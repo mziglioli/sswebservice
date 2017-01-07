@@ -3,6 +3,7 @@ package com.service;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -13,7 +14,6 @@ import com.model.User;
 import com.model.enuns.Authorities;
 import com.model.enuns.Status;
 import com.repository.UserRepository;
-import com.util.StaticValue;
 
 @Service
 public class UserService extends ServiceDefault<User, UserRepository> {
@@ -37,19 +37,18 @@ public class UserService extends ServiceDefault<User, UserRepository> {
 		return false;
 	}
 
-	public User getAuthenticatedUser() {
+	public User getAuthenticatedUser() throws AccessDeniedException{
 		try {
 			SecurityContext context = SecurityContextHolder.getContext();
 			if (context != null) {
 				Authentication auth = context.getAuthentication();
 				if (auth != null && !(auth instanceof AnonymousAuthenticationToken)) {
-					return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+					return (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
 				}
 			}
 			return null;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new User(null, "", StaticValue.ROLE_ANONIMOUS, "", Status.UNACTIVE, "", null, null);
+			throw new AccessDeniedException("");
 		}
 	}
 

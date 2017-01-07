@@ -30,6 +30,7 @@ public class StaticURL {
 	public static final String NEW = "/new";
 
 	// SPECIFIC
+	public static final String LOGGED = "/logged";
 	public static final String SIGNUP = "/signUp";
 	public static final String USER = "/user";
 	public static final String TEST = "/test";

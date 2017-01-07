@@ -33,4 +33,10 @@ public class UserController extends ControllerDefaultAdmin<UserService, User> {
 	protected User find(@PathVariable String id) {
 		return getService().findUserById(id);
 	}
+	
+	@GetMapping(value = StaticURL.LOGGED)
+	@PreAuthorize(StaticValue.HAS_ROLE_USER)
+	protected User logged() {
+		return getService().getAuthenticatedUser();
+	}
 }
