@@ -22,6 +22,7 @@ public class StaticURL {
 	// CRUD
 	public static final String FIND_BY_ID = "/{id}";
 	public static final String FIND_ALL = "/";
+	public static final String FIND_BY_PAGE = "/page";
 	public static final String SAVE = "/";
 	public static final String UPDATE = "/{id}";
 	public static final String DELETE = "/{id}";

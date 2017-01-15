@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -54,6 +56,12 @@ public abstract class ControllerDefault<T extends ServiceDefault, E extends Enti
 	@PreAuthorize(StaticValue.HAS_ROLE_USER)
 	protected Collection<E> findAll() {
 		return getService().findAll();
+	}
+	
+	@GetMapping(value = StaticURL.FIND_BY_PAGE)
+	@PreAuthorize(StaticValue.HAS_ROLE_USER)
+	protected Page<E> find(String search, Pageable page) {
+		return getService().find(search, page);
 	}
 
 	@GetMapping(value = StaticURL.FIND_BY_ID)

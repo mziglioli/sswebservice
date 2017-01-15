@@ -17,11 +17,12 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import com.controller.ControllerPackage;
 import com.model.EntityJpa;
 import com.service.ServicePackage;
+import com.specification.SpecificationPackage;
 import com.util.StaticURL;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackageClasses = { EntityJpa.class, ServicePackage.class, ControllerPackage.class })
+@ComponentScan(basePackageClasses = { EntityJpa.class, SpecificationPackage.class, ServicePackage.class, ControllerPackage.class })
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
 	@Override

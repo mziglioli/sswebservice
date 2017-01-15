@@ -3,24 +3,27 @@ package com.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.exception.MyException;
 import com.model.EntityJpa;
+import com.repository.DefaultRepository;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Getter
-public abstract class ServiceDefault<T extends EntityJpa, R extends JpaRepository<T, Long>> {
+public abstract class ServiceDefault<T extends EntityJpa, R extends DefaultRepository<T>> {
 
 	@Autowired
 	protected R repository;
 
 	@Autowired
 	protected UserService userService;
-
+	
 	public final T save(T entity) {
 		if (entity.getId() != null) {
 			return update(entity);
@@ -61,7 +64,19 @@ public abstract class ServiceDefault<T extends EntityJpa, R extends JpaRepositor
 	public Collection<T> findAll() {
 		return repository.findAll();
 	}
+	
+	public Page<T> find(Pageable pageable) {
+		return repository.findAll(pageable);
+	}
 
+	public Page<T> find(String search, Pageable pageable) {
+		return null;
+	}
+	
+	public Page<T> find(Specification<T> specification, Pageable pageable) {
+		return repository.findAll(specification, pageable);
+	}
+	
 	protected void afterInsert(T entity) {
 
 	}
