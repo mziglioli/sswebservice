@@ -54,7 +54,7 @@ public class CategorySpecification extends DefaultSpecification<Category> {
 					predOr = cb.or(predName,predIcon);
 				}
 				predicates.add(predOr);
-				query.orderBy(cb.asc(root.get("id")));
+//				query.orderBy(cb.asc(root.get("id")));
 				return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
