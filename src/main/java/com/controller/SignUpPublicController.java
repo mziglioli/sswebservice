@@ -5,6 +5,8 @@ import java.util.Collection;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controller.def.ControllerDefaultPublic;
+import com.model.Article;
 import com.model.Category;
 import com.model.User;
+import com.service.ArticleService;
 import com.service.CategoryService;
 import com.service.UserService;
 import com.util.StaticURL;
@@ -29,6 +33,9 @@ public class SignUpPublicController extends ControllerDefaultPublic<UserService,
 
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private ArticleService articleService;
 	
 	@PostMapping(value = StaticURL.SIGNUP)
 	@ResponseStatus(code = HttpStatus.OK)
@@ -77,5 +84,10 @@ public class SignUpPublicController extends ControllerDefaultPublic<UserService,
 	protected void update(@Valid @RequestBody Category entity, BindingResult bindingResult) {
 		//categoryService.save(entity);
 		System.out.println("update: " + String.valueOf(entity));
+	}
+	
+	@GetMapping(value = StaticURL.ARTICLE + StaticURL.FIND_ALL)
+	public Page<Article> getArticles() {
+		return articleService.find(new PageRequest(0, 10));
 	}
 }
