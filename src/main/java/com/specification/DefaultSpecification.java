@@ -28,4 +28,7 @@ public abstract class DefaultSpecification<T> {
 
 	public abstract Specification<T> getBySearch(String search);
 	
+	public  Predicate addPredicateActive(Root<T> root, CriteriaBuilder cb){
+		return cb.equal(root.get("active"), true);
+	}
 }

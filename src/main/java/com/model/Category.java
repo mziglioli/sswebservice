@@ -1,6 +1,5 @@
 package com.model;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -32,10 +31,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = StaticDB.TABLE_CATEGORY, uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
-@JsonIgnoreProperties(value = {"articles"})
-public class Category implements EntityJpa, Serializable {
+@JsonIgnoreProperties(value = { "articles" })
+public class Category extends EntityJpa {
 
-	private static final long serialVersionUID = 6942092712979147417L;
+	private static final long serialVersionUID = 6785222895629356881L;
 
 	@Id
 	@Column(name = "category_id")
@@ -53,8 +52,8 @@ public class Category implements EntityJpa, Serializable {
 	private String icon;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = StaticDB.TABLE_ARTICLE_CATEGORY, joinColumns = {
-			@JoinColumn(name = "category_id", referencedColumnName = "category_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "article_id", referencedColumnName = "article_id") })
+	@JoinTable(name = StaticDB.TABLE_ARTICLE_CATEGORY, 
+		joinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "category_id") }, 
+		inverseJoinColumns = {@JoinColumn(name = "article_id", referencedColumnName = "article_id") })
 	private Set<Article> articles;
 }

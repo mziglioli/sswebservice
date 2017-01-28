@@ -56,6 +56,7 @@ public class ArticleSpecification extends DefaultSpecification<Article> {
 				}else{
 					predOr = cb.or(predTitle, predAnswer, predAction, predActionName);
 				}
+				predicates.add(addPredicateActive(root, cb));
 				predicates.add(predOr);
 				
 				return cb.and(predicates.toArray(new Predicate[predicates.size()]));

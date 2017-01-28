@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.exception.MyException;
 import com.model.EntityJpa;
+import com.model.User;
 import com.repository.DefaultRepository;
 
 import lombok.Getter;
@@ -57,7 +59,8 @@ public abstract class ServiceDefault<T extends EntityJpa, R extends DefaultRepos
 			throw new MyException("exception.deleteNotFindId");
 		}
 		beforeDelete(entity);
-		repository.delete(entity);
+//		repository.delete(entity);
+		repository.save(entity);
 		afterDelete(entity);
 	}
 
@@ -90,15 +93,34 @@ public abstract class ServiceDefault<T extends EntityJpa, R extends DefaultRepos
 	}
 
 	protected void beforeInsert(T entity) {
-
+		Long id = 0L;
+		User user = userService.getAuthenticatedUser();
+		if(user != null){
+			id = user.getId();
+		}
+		entity.setCreatedBy(id);
+		entity.setCreatedDate(Calendar.getInstance());
 	}
 
 	protected void beforeUpdate(T entity) {
-
+		Long id = 0L;
+		User user = userService.getAuthenticatedUser();
+		if(user != null){
+			id = user.getId();
+		}
+		entity.setUpdatedBy(id);
+		entity.setUpdatedDate(Calendar.getInstance());
 	}
 
 	protected void beforeDelete(T entity) {
-
+		Long id = 0L;
+		User user = userService.getAuthenticatedUser();
+		if(user != null){
+			id = user.getId();
+		}
+		entity.setUpdatedBy(id);
+		entity.setUpdatedDate(Calendar.getInstance());
+		entity.setActive(false);
 	}
 
 	protected void log(String msg) {

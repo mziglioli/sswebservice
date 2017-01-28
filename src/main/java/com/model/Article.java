@@ -1,6 +1,5 @@
 package com.model;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -28,15 +27,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = StaticDB.TABLE_ARTICLE)
-public class Article implements EntityJpa, Serializable {
+public class Article extends EntityJpa {
 
 	private static final long serialVersionUID = 6942092712979147417L;
 
 	@Id
-	@Column(name = "article_id")
+	@Column(name="article_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	
 	@Column
 	@NotNull(message = "error.empty.title")
 	@NotEmpty(message = "error.empty.title")

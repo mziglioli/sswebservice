@@ -1,6 +1,5 @@
 package com.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.stream.Stream;
@@ -43,11 +42,12 @@ import lombok.ToString;
 @ToString(callSuper = false, of = { "id", "name", "username", "status", "description" })
 @Entity
 @Table(name = StaticDB.TABLE_USER, uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
-public class User implements EntityJpa, Serializable, UserDetails {
+public class User extends EntityJpa implements UserDetails {
 
 	private static final long serialVersionUID = 442738873666572571L;
 
 	@Id
+	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
@@ -159,19 +159,19 @@ public class User implements EntityJpa, Serializable, UserDetails {
 		}
 		return false;
 	}
-	
-	public String toJson(){
+
+	public String toJson() {
 		StringBuilder sb = new StringBuilder("[");
 		String sep = "";
 		if (roles != null && !roles.isEmpty()) {
 			for (Authorities r : roles) {
-				sb.append(sep + "'"+r.getRole()+"'");
+				sb.append(sep + "'" + r.getRole() + "'");
 				sep = ",";
 			}
 		}
 		sb.append("]");
-		
-		return "{\"id\":"+ id + ", \"name\":\"" + name + "\", \"username\":\"" + username + "\", \"status\":\"" + status + "\", \"description\":\""
-				+ description + "\"}";
+
+		return "{\"id\":" + id + ", \"name\":\"" + name + "\", \"username\":\"" + username + "\", \"status\":\""
+				+ status + "\", \"description\":\"" + description + "\"}";
 	}
 }
