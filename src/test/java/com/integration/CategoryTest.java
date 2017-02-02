@@ -6,10 +6,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
-import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.conf.PersistenceConfigTest;
 import com.conf.TestConfiguration;
@@ -18,12 +19,9 @@ import com.service.CategoryService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { PersistenceConfigTest.class, TestConfiguration.class })
-@SqlGroup({
-	//@formatter:off	
-	@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:category_insert.sql"),
-	@Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:category_clean.sql") 
-	//@formatter:on	
-})
+@Transactional
+@Rollback
+@Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:category_insert.sql")
 public class CategoryTest {
 
 	@Autowired
