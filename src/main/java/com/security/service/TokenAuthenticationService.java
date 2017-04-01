@@ -20,22 +20,17 @@ public class TokenAuthenticationService {
 	@Autowired
 	private TokenHandler tokenHandler;
 
-	public void addAuthentication(HttpServletResponse response, UserAuthentication userAuthentication) {
-		String jwt = tokenHandler.createTokenForUser(userAuthentication.getDetails());
-		
+	public void addAuthentication(HttpServletResponse response, String username) {
+		String jwt = tokenHandler.createTokenForUser(username);
+
 		Cookie cookie = new Cookie(StaticValue.COOKIE_AUTH_NAME, jwt);
 		cookie.setPath(StaticValue.COOKIE_PATH);
 		cookie.setHttpOnly(true);
 		cookie.setMaxAge(StaticValue.COOKIE_TIME);
 		response.addCookie(cookie);
 		response.addHeader(StaticValue.COOKIE_AUTH_NAME, jwt);
-		Cookie cookieId = new Cookie(StaticValue.COOKIE_USER_ID,
-				String.valueOf(userAuthentication.getDetails().getId()));
-		cookieId.setPath(StaticValue.COOKIE_PATH);
-		cookieId.setMaxAge(StaticValue.COOKIE_TIME);
-		response.addCookie(cookieId);
 	}
-	
+
 	public Authentication getAuthentication(HttpServletRequest request) {
 		Cookie cookie = WebUtils.getCookie(request, StaticValue.COOKIE_AUTH_NAME);
 		if (cookie != null) {

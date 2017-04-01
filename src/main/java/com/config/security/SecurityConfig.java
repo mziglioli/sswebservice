@@ -16,6 +16,7 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 
+import com.exception.GlobalExceptionHandler;
 import com.security.SecurityPackage;
 import com.security.exception.AuthenticationEntryPointImpl;
 import com.security.filter.AuthenticationFilter;
@@ -56,10 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 			.and()
 				.addFilterBefore(new SimpleCorsFilter(), ChannelProcessingFilter.class)
-				.addFilterBefore(new LoginFilter(StaticURL.LOGIN, tokenAuthenticationService(), userDetailsService(), authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new LoginFilter(StaticURL.LOGIN, tokenAuthenticationService(), userDetailsService(), authenticationManager(), globalExceptionHandler()), UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(new AuthenticationFilter(tokenAuthenticationService()), UsernamePasswordAuthenticationFilter.class)
 					.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPointImpl())
-			.and().logout()
+			.and()
+				.logout()
 				.logoutUrl(StaticURL.LOGOUT)
 				.logoutSuccessUrl(StaticURL.PUBLIC_SUCCESS_LOGOUT)
 				.addLogoutHandler(myLogoutHandler()) 
@@ -91,6 +93,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public MyLogoutSuccessHandler myLogoutHandler() {
 		return new MyLogoutSuccessHandler();
+	}
+	
+	@Bean
+	public GlobalExceptionHandler globalExceptionHandler() {
+		return new GlobalExceptionHandler();
 	}
 
 	@Bean

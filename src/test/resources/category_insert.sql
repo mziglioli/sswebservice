@@ -6,6 +6,10 @@ INSERT INTO `sswebservicetest`.`helparticles`(article_id,`action`,action_name,an
 
 INSERT INTO `sswebservicetest`.`helparticle_category` (`category_id`,`icon`,`name`,`active`,`created_by`,`created_date`) VALUES (1,'icon1','Category1',1,1,"2017-01-01 00:00:000");
 INSERT INTO `sswebservicetest`.`helparticle_category` (`category_id`,`icon`,`name`,`active`,`created_by`,`created_date`) VALUES (2,'icon2','Category2',1,1,"2017-01-01 00:00:000");
+INSERT INTO `sswebservicetest`.`helparticle_category` (`category_id`,`icon`,`name`,`active`,`created_by`,`created_date`) VALUES (3,'icon3','Category3',1,1,"2017-01-01 00:00:000");
+INSERT INTO `sswebservicetest`.`helparticle_category` (`category_id`,`icon`,`name`,`active`,`created_by`,`created_date`) VALUES (4,'icon4','Category4',1,1,"2017-01-01 00:00:000");
+INSERT INTO `sswebservicetest`.`helparticle_category` (`category_id`,`icon`,`name`,`active`,`created_by`,`created_date`) VALUES (5,'icon5','Category5',1,1,"2017-01-01 00:00:000");
+INSERT INTO `sswebservicetest`.`helparticle_category` (`category_id`,`icon`,`name`,`active`,`created_by`,`created_date`) VALUES (6,'icon6','Category6',1,1,"2017-01-01 00:00:000");
 
 INSERT INTO `sswebservicetest`.`helparticle_category_category`(category_id,article_id) VALUES (1,1);
 INSERT INTO `sswebservicetest`.`helparticle_category_category`(category_id,article_id) VALUES (1,2);

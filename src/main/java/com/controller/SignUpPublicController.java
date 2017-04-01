@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -22,6 +23,8 @@ import com.controller.def.ControllerDefaultPublic;
 import com.model.Article;
 import com.model.Category;
 import com.model.User;
+import com.modelsecond.Test1;
+import com.repositorysecond.Test1Repository;
 import com.service.ArticleService;
 import com.service.CategoryService;
 import com.service.UserService;
@@ -41,6 +44,18 @@ public class SignUpPublicController extends ControllerDefaultPublic<UserService,
 	@ResponseStatus(code = HttpStatus.OK)
 	public void signUp(@RequestBody @Valid User user, BindingResult bindingResult) {
 		getService().save(user);
+	}
+	
+	@GetMapping(value = "/login")
+	@ResponseStatus(code = HttpStatus.OK)
+	public String login() {
+		return "login :)";
+	}
+	
+	@GetMapping(value = StaticURL.LOGIN+"/success")
+	@ResponseStatus(code = HttpStatus.OK)
+	public String successLogin() {
+		return "Welcome :)";
 	}
 	
 	@GetMapping(value = StaticURL.SUCCESS_LOGOUT)
@@ -90,4 +105,12 @@ public class SignUpPublicController extends ControllerDefaultPublic<UserService,
 	public Page<Article> getArticles() {
 		return articleService.find(new PageRequest(0, 10));
 	}
+	
+	@Autowired
+	private Test1Repository test1Repository;
+	@GetMapping(value = "/test1")
+	public List<Test1> getTest1() {
+		return test1Repository.findAll();
+	}
+	
 }

@@ -16,6 +16,7 @@ public class StaticURL {
 	public static final String PUBLIC = "/public";
 	public static final String LOGIN = "/public/login";
 	public static final String LOGOUT = "/public/logout";
+	public static final String SUCCESS_LOGIN = "/successlogin";
 	public static final String SUCCESS_LOGOUT = "/successlogout";
 	public static final String PUBLIC_SUCCESS_LOGOUT = "/public/successlogout";
 

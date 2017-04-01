@@ -15,40 +15,40 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.model.EntityJpa;
-import com.repository.RepositoryPackage;
+import com.modelsecond.Test1;
+import com.repositorysecond.Test1Repository;
 import com.util.StaticDB;
 
 @Configuration
 @EnableJpaRepositories(
-		basePackageClasses = { RepositoryPackage.class }, 
-		entityManagerFactoryRef = "entityManagerFactory", 
-		transactionManagerRef = "transactionManager")
-public class PersistenceConfig {
+		basePackageClasses = { Test1Repository.class }, 
+		entityManagerFactoryRef = "entityManagerFactorySecond", 
+		transactionManagerRef = "transactionManagerSecond")
+public class PersistenceConfigSecond {
 
 	@Bean
-	public DataSource dataSource() {
+	public DataSource dataSourceSecond() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(StaticDB.DB_DRIVER);
-		dataSource.setUrl(StaticDB.DB_URL);
+		dataSource.setUrl(StaticDB.DB_URL_SECOND);
 		dataSource.setUsername(StaticDB.DB_USERNAME);
 		dataSource.setPassword(StaticDB.DB_PASSWORD);
 		return dataSource;
 	}
 
 	@Bean
-	public PlatformTransactionManager transactionManager() {
-		EntityManagerFactory factory = entityManagerFactory().getObject();
+	public PlatformTransactionManager transactionManagerSecond() {
+		EntityManagerFactory factory = entityManagerFactorySecond().getObject();
 		return new JpaTransactionManager(factory);
 	}
 
 	@Bean
-	public HibernateExceptionTranslator hibernateExceptionTranslator() {
+	public HibernateExceptionTranslator hibernateExceptionTranslatorSecond() {
 		return new HibernateExceptionTranslator();
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactorySecond() {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setGenerateDdl(Boolean.TRUE);
 		vendorAdapter.setShowSql(Boolean.TRUE);
@@ -59,9 +59,9 @@ public class PersistenceConfig {
 		jpaProperties.put(StaticDB.DB_SHOW_SQL, StaticDB.DB_SHOW_SQL_VALUE);
 
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-		factory.setDataSource(dataSource());
+		factory.setDataSource(dataSourceSecond());
 		factory.setJpaVendorAdapter(vendorAdapter);
-		factory.setPackagesToScan(EntityJpa.class.getPackage().getName());
+		factory.setPackagesToScan(Test1.class.getPackage().getName());
 		factory.setJpaProperties(jpaProperties);
 
 		return factory;

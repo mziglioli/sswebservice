@@ -16,6 +16,7 @@ public class CategoryService extends ServiceDefault<Category, CategoryRepository
 	@Autowired
 	private CategorySpecification specification;
 	
+
 	public Category getCategoryWithArticles(Long id) {
 		return getRepository().findOne(specification.getById(id));
 	}

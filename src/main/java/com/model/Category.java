@@ -15,9 +15,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.model.form.LoginForm;
 import com.util.StaticDB;
 
 import lombok.AllArgsConstructor;
@@ -50,7 +52,7 @@ public class Category extends EntityJpa {
 	@NotNull(message = "error.empty.icon")
 	@NotEmpty(message = "error.empty.icon")
 	private String icon;
-
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = StaticDB.TABLE_ARTICLE_CATEGORY, 
 		joinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "category_id") }, 

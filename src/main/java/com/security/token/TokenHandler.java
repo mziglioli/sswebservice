@@ -22,8 +22,8 @@ public class TokenHandler {
 		return userDetailsService.loadUserByUsername(username);
 	}
 
-	public String createTokenForUser(User user) {
-		return Jwts.builder().setSubject(user.getUsername()).signWith(SignatureAlgorithm.HS512, StaticValue.JWTS_SECRET)
+	public String createTokenForUser(String username) {
+		return Jwts.builder().setSubject(username).signWith(SignatureAlgorithm.HS512, StaticValue.JWTS_SECRET)
 				.compact();
 	}
 }

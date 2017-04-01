@@ -56,6 +56,7 @@ public class SignUpTest {
 		MyException exc = oj.readValue(content, MyException.class);
 		assertEquals("error.empty.name", exc.getError()[0]);
 		assertEquals("error.empty.username", exc.getError()[1]);
+		assertEquals("ação", "ação");
 	}
 
 	@Test
@@ -69,5 +70,6 @@ public class SignUpTest {
 		MvcResult mocResult = mock.perform(post(StaticURL.SIGNUP_TEST).content(jsonContent)
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andReturn();
 		assertEquals(200, mocResult.getResponse().getStatus());
+		assertEquals("ação", "ação");
 	}
 }

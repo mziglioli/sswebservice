@@ -31,6 +31,7 @@ public class ArticleTest {
 	public void insert() {
 		Long qtde = service.getRepository().count();
 		assertEquals(Long.valueOf(4), qtde);
+		assertEquals("ação", "ação");
 	}
 
 	@Test
