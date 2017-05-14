@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf()
 				.disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and().anonymous()
-			.and().authorizeRequests().antMatchers(StaticURL.PUBLIC_ALL, StaticURL.FAVICON_ICO).permitAll()
+			.and().authorizeRequests().antMatchers(StaticURL.PUBLIC_ALL, StaticURL.FAVICON_ICO, "/swagger-resources").permitAll()
 				.antMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
 				.anyRequest().authenticated()
 			.and()
