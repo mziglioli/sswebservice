@@ -25,4 +25,18 @@ public class StaticDB {
 	public static final String TABLE_CATEGORY = "helparticle_category";
 	public static final String TABLE_ARTICLE_CATEGORY = "helparticle_category_category";
 	public static final String TABLE_USER = "user";
+	
+	public static final String TABLE_ACTION = "action";
+	public static final String TABLE_ACTION_PARM = "action_parm";
+	public static final String TABLE_ACTION_PARM_PROMPT = "action_parm_prompt";
+	public static final String TABLE_BUTTON = "button";
+	public static final String TABLE_CHAT_LOG = "chat_bot";
+	public static final String TABLE_ENTITY = "entity";
+	public static final String TABLE_ENTITY_SYNONYM = "entity_synonym";
+	public static final String TABLE_ENTITY_TEXT = "entity_text";
+	public static final String TABLE_INTENT = "intent";
+	public static final String TABLE_INTENT_CONTEXT = "intent_context";
+	public static final String TABLE_NODE = "node";
+	public static final String TABLE_NODE_CONNECTION = "node_connection";
+	public static final String TABLE_QUICK_BUTTON = "quick_button";
 }

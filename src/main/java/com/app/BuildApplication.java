@@ -12,13 +12,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.config.database.PersistenceConfig;
+import com.config.database.PersistenceConfigSecond;
 import com.config.security.SecurityConfig;
+import com.config.servlet.HazelcastConfiguration;
 import com.config.servlet.ServletContextConfig;
 import com.config.servlet.SwaggerConfig;
 import com.exception.ExceptionPackage;
 
 @SpringBootApplication(
-		scanBasePackageClasses = { PersistenceConfig.class, SecurityConfig.class, ServletContextConfig.class, SwaggerConfig.class, ExceptionPackage.class }, 
+		scanBasePackageClasses = {HazelcastConfiguration.class, PersistenceConfig.class, PersistenceConfigSecond.class, SecurityConfig.class, ServletContextConfig.class, SwaggerConfig.class, ExceptionPackage.class }, 
 		exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class })
 @EnableTransactionManagement
 @EnableCaching

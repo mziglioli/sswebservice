@@ -6,9 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.model.EntityJpa;
 
@@ -35,7 +32,5 @@ public class Test1 extends EntityJpa {
 	private Long id;
 
 	@Column
-	@NotNull(message = "error.empty.name")
-	@NotEmpty(message = "error.empty.name")
 	private String name;
 }

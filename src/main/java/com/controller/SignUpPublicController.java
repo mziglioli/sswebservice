@@ -24,9 +24,9 @@ import com.model.Article;
 import com.model.Category;
 import com.model.User;
 import com.modelsecond.Test1;
-import com.repositorysecond.Test1Repository;
 import com.service.ArticleService;
 import com.service.CategoryService;
+import com.service.Test1Service;
 import com.service.UserService;
 import com.util.StaticURL;
 
@@ -107,10 +107,33 @@ public class SignUpPublicController extends ControllerDefaultPublic<UserService,
 	}
 	
 	@Autowired
-	private Test1Repository test1Repository;
-	@GetMapping(value = "/test1")
-	public List<Test1> getTest1() {
-		return test1Repository.findAll();
-	}
+	private Test1Service test1Service;
 	
+	@GetMapping(value = "/test1/")
+	public List<Test1> getTest1() {
+		return test1Service.findAllCached();
+	}
+	@GetMapping(value = "/test1/{id}")
+	public Test1 id(@PathVariable String id) {
+		return test1Service.findByIdCached(Long.valueOf(id));
+	}
+	@GetMapping(value = "/test1/{id}/{session}")
+	public Test1 idsession(@PathVariable String id, @PathVariable String session) {
+		return test1Service.findByIdCached(Long.valueOf(id), session);
+	}
+	@GetMapping(value = "/test1/clear")
+	@ResponseStatus(code = HttpStatus.OK)
+	public void clearCache() {
+		test1Service.clearCache();
+	}
+	@GetMapping(value = "/test1/put/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public Test1 put(@PathVariable String id) {
+		return test1Service.put(Long.valueOf(id));
+	}
+	@GetMapping(value = "/test1/post")
+	@ResponseStatus(code = HttpStatus.OK)
+	public Test1 post() {
+		return test1Service.post();
+	}
 }
